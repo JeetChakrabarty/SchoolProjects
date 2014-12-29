@@ -1,0 +1,23 @@
+#!bin/sh
+echo "How many columns would you like?"
+read columns
+j=0
+k=0
+while [ $j -lt $columns ]; do
+	j=`expr $j + 1`
+	k=0
+	while [ $k -lt $j ]; do
+		echo -n "$k "
+		k=`expr $k + 1`
+	done
+	echo ""
+done
+while [ $j -gt $0 ]; do
+	j=`expr $j - 1`
+	k=0
+	while [ $k -lt $j ]; do
+		echo -n "$k "
+		k=`expr $k + 1`
+	done
+	echo ""
+done

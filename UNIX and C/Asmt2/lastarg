@@ -1,0 +1,8 @@
+#!/bin/sh
+while [ $# -gt 1 ]
+ #Continues executing loops until number of arguments is greater than 1
+do
+	shift
+ #Shifts all the arguments to the left until one argument left
+done
+echo $1 #Prints last argument

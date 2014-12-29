@@ -1,0 +1,50 @@
+USE kchakra2tadb;
+
+SELECT LName FROM InstructsProfs;
+
+SELECT TeachingAssistants.FName, TeachingAssistants.LName FROM
+TeachingAssistants, InstructsProfs WHERE
+TeachingAssistants.HSupervisor=InstructsProfs.WID AND
+InstructsProfs.FName="Mike";
+
+SELECT FName, LName, DType FROM TeachingAssistants
+WHERE DType="PhD" ORDER BY FName;
+
+SELECT * FROM Course WHERE CNo like 'CS2%';
+
+SELECT FName, CName FROM TeachingAssistants, AssignedTo, Course WHERE
+TeachingAssistants.WID=AssignedTo.TAWID AND Course.CNo=AssignedTo.CNo AND
+Term="Fall";
+
+SELECT TeachingAssistants.FName, InstructsProfs.FName, InstructsProfs.LName FROM
+TeachingAssistants, InstructsProfs
+WHERE TeachingAssistants.HSupervisor=InstructsProfs.WID;
+
+SELECT FName, LName FROM InstructsProfs WHERE WID NOT IN
+(SELECT InstructsProfs.WID FROM InstructsProfs, TeachingAssistants WHERE
+InstructsProfs.WID=TeachingAssistants.HSupervisor);
+
+
+SELECT FName, LName FROM InstructsProfs WHERE WID NOT IN
+(SELECT InstructsProfs.WID FROM InstructsProfs, TeachingAssistants WHERE
+InstructsProfs.WID=TeachingAssistants.HSupervisor UNION
+SELECT InstructsProfs.WID FROM InstructsProfs, CoSupervisor WHERE
+InstructsProfs.WID=CoSupervisor.PWID);
+
+SELECT COUNT(*) FROM TeachingAssistants WHERE DType="PhD";
+
+SELECT Course.CNo, CName, FName, LName FROM Course LEFT OUTER JOIN
+((SELECT * FROM AssignedTo, TeachingAssistants WHERE
+TeachingAssistants.WID=AssignedTo.TAWID) AS T) ON Course.CNo=T.Cno WHERE
+Course.CNo like 'CS1%';
+
+SELECT AssignedTo.Year, COUNT(*) FROM AssignedTo, TeachingAssistants WHERE
+AssignedTo.TAWID=TeachingAssistants.WID;
+
+SELECT S.Year FROM
+((SELECT AssignedTo.Year, COUNT(*) AS count FROM AssignedTo, TeachingAssistants WHERE
+AssignedTo.TAWID=TeachingAssistants.WID) AS S) WHERE S.count < 5;
+
+SELECT FName FROM TeachingAssistants WHERE HSupervisor="dvancise" UNION
+SELECT FName FROM TeachingAssistants, CoSupervisor WHERE
+TeachingAssistants.WID=CoSupervisor.TAWID AND PWID="dvancise";

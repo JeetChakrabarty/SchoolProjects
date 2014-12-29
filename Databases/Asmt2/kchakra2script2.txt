@@ -1,0 +1,64 @@
+USE kchakra2tadb;
+LOAD DATA INFILE '/tmp/fall2014data.txt'
+INTO TABLE InstructsProfs
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+INSERT INTO InstructsProfs VALUES ("Jeet", "Chakrabarty", "kchakra2");
+SELECT * FROM InstructsProfs;
+
+INSERT INTO TeachingAssistants VALUES ("Homer", "Simpson", 250011111, "hsimpson", "Masters", NULL, "lreid2");
+INSERT INTO TeachingAssistants VALUES ("Marge", "Simpson", 250011112, "msimpson", "Masters", NULL, "mmm");
+INSERT INTO TeachingAssistants VALUES ("Lisa", "Simpson", 250011113, "lsimpson", "PhD", NULL, "lreid2");
+INSERT INTO TeachingAssistants VALUES ("Maggie", "Simpson", 250011114, "msimpso1", "PhD", NULL, "lreid2");
+INSERT INTO TeachingAssistants VALUES ("Ned", "Flanders", 250000666, "nflander", "PhD", NULL, "mkatchab");
+INSERT INTO TeachingAssistants VALUES ("Todd", "Flanders", 250000667, "tflander", "Masters", NULL, "mbauer");
+INSERT INTO TeachingAssistants VALUES ("Monty", "Burns", 250000001, "mburns", "PhD", NULL, "dvancise");
+INSERT INTO TeachingAssistants VALUES ("Waylan", "Smithers", 250022222, "wsmither", "PhD", NULL, "mbauer");
+INSERT INTO TeachingAssistants VALUES ("Bruce", "Wayne", 250742259, "bwayne", "PhD", NULL, "lreid2");
+SELECT * from TeachingAssistants;
+
+INSERT INTO Course VALUES ("CS1026", "Intro to Programming");
+INSERT INTO Course VALUES ("CS1033", "Multimedia and Communications");
+INSERT INTO Course VALUES ("CS1032", "Info Systems and Design");
+INSERT INTO Course VALUES ("CS2212", "Intro to Software Engineering");
+INSERT INTO Course VALUES ("CS3319", "Intro to Databases");
+INSERT INTO Course VALUES ("CS4411", "Advanced Databases");
+INSERT INTO Course VALUES ("CS2210", "Data Structures");
+INSERT INTO Course VALUES ("CS2208", "Computer Organization");
+INSERT INTO Course VALUES ("CS2209", "Logic");
+INSERT INTO Course VALUES ("CS2211", "Software Tools");
+INSERT INTO Course VALUES ("CS3357", "Networks");
+SELECT * FROM Course;
+
+INSERT INTO CoSupervisor VALUES ("hsimpson", "mdaley");
+INSERT INTO CoSupervisor VALUES ("hsimpson", "mbauer");
+INSERT INTO CoSupervisor VALUES ("mburns", "mdaley");
+INSERT INTO CoSupervisor VALUES ("mburns", "dvancise");
+INSERT INTO CoSupervisor VALUES ("msimpso1", "mbauer");
+INSERT INTO CoSupervisor VALUES ("msimpso1", "sosborn");
+INSERT INTO CoSupervisor VALUES ("msimpso1", "mperry");
+INSERT INTO CoSupervisor VALUES ("lsimpson", "lreid2");
+
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2014, "hsimpson", "CS1033");
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2014, "tflander", "CS1033");
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2014, "msimpson", "CS1033");
+INSERT INTO AssignedTo VALUES (NULL, "Spring", 2013, "hsimpson", "CS3357");
+INSERT INTO AssignedTo VALUES (NULL, "Spring", 2013, "tflander", "CS3357");
+INSERT INTO AssignedTo VALUES (NULL, "Spring", 2013, "wsmither", "CS3357");
+INSERT INTO AssignedTo VALUES (NULL, "Spring", 2013, "mburns", "CS3357");
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2013, "nflander", "CS1033");
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2013, "lsimpson", "CS1033");
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2014, "mburns", "CS3319");
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2014, "lsimpson", "CS1026");
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2014, "msimpso1", "CS1026");
+INSERT INTO AssignedTo VALUES (NULL, "Summer", 2014, "wsmither", "CS1026");
+INSERT INTO AssignedTo VALUES (NULL, "Summer", 2014, "msimpson", "CS1026");
+
+UPDATE TeachingAssistants SET FName="Rod" WHERE FName="Todd";
+SELECT * FROM TeachingAssistants;
+
+UPDATE TeachingAssistants SET HSupervisor="mperry" WHERE HSupervisor="mbauer";
+SELECT * FROM TeachingAssistants;
+
+UPDATE AssignedTo SET Year=2012 WHERE Year=2014 AND CNo="CS2016" AND Term="Fall";
+SELECT * FROM TeachingAssistants;

@@ -1,0 +1,160 @@
+--------------
+SELECT LName FROM InstructsProfs
+--------------
+
+LName
+
+Mercer
+Ling
+Vancise
+Lutfiyya
+Barron
+Chakrabarty
+Reid
+Bauer
+Daley
+Katchabaw
+Moreno Maza
+Perry
+Madhavji
+Osborn
+--------------
+SELECT TeachingAssistants.FName, TeachingAssistants.LName FROM
+TeachingAssistants, InstructsProfs WHERE
+TeachingAssistants.HSupervisor=InstructsProfs.WID AND
+InstructsProfs.FName="Mike"
+--------------
+
+FName   LName
+Ned     Flanders
+--------------
+SELECT FName, LName, DType FROM TeachingAssistants
+WHERE DType="PhD" ORDER BY FName
+--------------
+
+FName   LName   DType
+Bruce   Wayne   PhD
+Lisa    Simpson PhD
+Maggie  Simpson PhD
+Monty   Burns   PhD
+Ned     Flanders        PhD
+Waylan  Smithers        PhD
+--------------
+SELECT * FROM Course WHERE CNo like 'CS2%'
+--------------
+
+CNo     CName
+CS2208  Computer Organization
+CS2209  Logic
+CS2210  Data Structures
+CS2211  Software Tools
+CS2212  Intro to Software Engineering
+--------------
+SELECT FName, CName FROM TeachingAssistants, AssignedTo, Course WHERE
+TeachingAssistants.WID=AssignedTo.TAWID AND Course.CNo=AssignedTo.CNo AND
+Term="Fall"
+--------------
+
+FName   CName
+Homer   Multimedia and Communications
+Lisa    Multimedia and Communications
+Lisa    Intro to Programming
+Monty   Intro to Databases
+Maggie  Intro to Programming
+Marge   Multimedia and Communications
+Ned     Multimedia and Communications
+Rod     Multimedia and Communications
+--------------
+SELECT TeachingAssistants.FName, InstructsProfs.FName, InstructsProfs.LName FROM
+TeachingAssistants, InstructsProfs
+WHERE TeachingAssistants.HSupervisor=InstructsProfs.WID
+--------------
+
+FName   FName   LName
+Bruce   Laura   Reid
+Homer   Laura   Reid
+Lisa    Laura   Reid
+Monty   Doug    Vancise
+Maggie  Laura   Reid
+Marge   Marc    Moreno Maza
+Ned     Mike    Katchabaw
+Rod     Mark    Perry
+Waylan  Mark    Perry
+--------------
+SELECT FName, LName FROM InstructsProfs WHERE WID NOT IN
+(SELECT InstructsProfs.WID FROM InstructsProfs, TeachingAssistants WHERE
+InstructsProfs.WID=TeachingAssistants.HSupervisor)
+--------------
+
+FName   LName
+
+Bob     Mercer
+Charles Ling
+Hanan   Lutfiyya
+John    Barron
+Jeet    Chakrabarty
+Mike    Bauer
+Mark    Daley
+Nazim   Madhavji
+Sylvia  Osborn
+--------------
+SELECT FName, LName FROM InstructsProfs WHERE WID NOT IN
+(SELECT InstructsProfs.WID FROM InstructsProfs, TeachingAssistants WHERE
+InstructsProfs.WID=TeachingAssistants.HSupervisor UNION
+SELECT InstructsProfs.WID FROM InstructsProfs, CoSupervisor WHERE
+InstructsProfs.WID=CoSupervisor.PWID)
+--------------
+
+FName   LName
+
+Bob     Mercer
+Charles Ling
+Hanan   Lutfiyya
+John    Barron
+Jeet    Chakrabarty
+Nazim   Madhavji
+--------------
+SELECT COUNT(*) FROM TeachingAssistants WHERE DType="PhD"
+--------------
+
+COUNT(*)
+6
+--------------
+SELECT Course.CNo, CName, FName, LName FROM Course LEFT OUTER JOIN
+((SELECT * FROM AssignedTo, TeachingAssistants WHERE
+TeachingAssistants.WID=AssignedTo.TAWID) AS T) ON Course.CNo=T.Cno WHERE
+Course.CNo like 'CS1%'
+--------------
+
+CNo     CName   FName   LName
+CS1026  Intro to Programming    Lisa    Simpson
+CS1026  Intro to Programming    Maggie  Simpson
+CS1026  Intro to Programming    Marge   Simpson
+CS1026  Intro to Programming    Waylan  Smithers
+CS1032  Info Systems and Design NULL    NULL
+CS1033  Multimedia and Communications   Homer   Simpson
+CS1033  Multimedia and Communications   Lisa    Simpson
+CS1033  Multimedia and Communications   Marge   Simpson
+CS1033  Multimedia and Communications   Ned     Flanders
+CS1033  Multimedia and Communications   Rod     Flanders
+--------------
+SELECT AssignedTo.Year, COUNT(*) FROM AssignedTo, TeachingAssistants WHERE
+AssignedTo.TAWID=TeachingAssistants.WID
+--------------
+
+Year    COUNT(*)
+2013    14
+--------------
+SELECT S.Year FROM
+((SELECT AssignedTo.Year, COUNT(*) AS count FROM AssignedTo, TeachingAssistants WHERE
+AssignedTo.TAWID=TeachingAssistants.WID) AS S) WHERE S.count < 5
+--------------
+
+--------------
+SELECT FName FROM TeachingAssistants WHERE HSupervisor="dvancise" UNION
+SELECT FName FROM TeachingAssistants, CoSupervisor WHERE
+TeachingAssistants.WID=CoSupervisor.TAWID AND PWID="dvancise"
+--------------
+
+FName
+Monty

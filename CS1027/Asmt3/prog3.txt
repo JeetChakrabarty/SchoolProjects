@@ -1,0 +1,4 @@
+test n {
+   n zero? 0 done
+   n nonzero? 1 done
+}

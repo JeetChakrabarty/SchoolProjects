@@ -1,0 +1,11 @@
+#!/bin/sh
+echo $0
+ #Prints shell script file name
+while [ $# -gt 1 ]; do
+ #Repeats loop until one argument is left
+	echo $1
+ #Prints out first argument
+	shift
+ #Shifts to the left twice to skip even-numbered arguments
+	shift
+done

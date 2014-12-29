@@ -1,0 +1,71 @@
+--------------
+CREATE VIEW TAs AS SELECT TeachingAssistants.FName, TeachingAssistants.LName,
+AssignedTo.CNo, AssignedTo.Year, AssignedTo.Term FROM TeachingAssistants,
+AssignedTo WHERE TeachingAssistants.WID=AssignedTo.TAWID
+--------------
+
+--------------
+SELECT * FROM TAs
+--------------
+
+FName   LName   CNo     Year    Term
+Homer   Simpson CS1033  2014    Fall
+Homer   Simpson CS3357  2013    Spring
+Lisa    Simpson CS1033  2013    Fall
+Lisa    Simpson CS1026  2014    Fall
+Monty   Burns   CS3357  2013    Spring
+Monty   Burns   CS3319  2014    Fall
+Maggie  Simpson CS1026  2014    Fall
+Marge   Simpson CS1033  2014    Fall
+Marge   Simpson CS1026  2014    Summer
+Ned     Flanders        CS1033  2013    Fall
+Rod     Flanders        CS1033  2014    Fall
+Rod     Flanders        CS3357  2013    Spring
+Waylan  Smithers        CS3357  2013    Spring
+Waylan  Smithers        CS1026  2014    Summer
+--------------
+DELETE FROM InstructsProfs WHERE FName="Hanan"
+--------------
+
+--------------
+DELETE FROM InstructsProfs WHERE FName="Doug" AND LName="Vancise"
+--------------
+
+ERROR 1451 (23000) at line 9: Cannot delete or update a parent row: a foreign key constraint fails (`kchakra2tadb`.`TeachingAssistants`, CONSTRAINT `TeachingAssistants_ibfk_1` FOREIGN KEY (`HSupervisor`) REFERENCES `InstructsProfs` (`WID`))
+--------------
+CREATE TRIGGER `check` BEFORE INSERT ON `AssignedTo`
+FOR EACH ROW
+BEGIN
+IF NEW.Year<2000 THEN
+SET NEW.Year=2000;
+END IF;
+IF NEW.Year>2029 THEN
+SET NEW.Year=2029;
+END IF;
+END
+--------------
+
+--------------
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2030, "hsimpson", "CS1033")
+--------------
+
+--------------
+SELECT * FROM AssignedTo
+--------------
+
+NoStudents      Term    Year    TAWID   CNo
+NULL    Fall    2014    hsimpson        CS1033
+NULL    Fall    2014    tflander        CS1033
+NULL    Fall    2014    msimpson        CS1033
+NULL    Spring  2013    hsimpson        CS3357
+NULL    Spring  2013    tflander        CS3357
+NULL    Spring  2013    wsmither        CS3357
+NULL    Spring  2013    mburns  CS3357
+NULL    Fall    2013    nflander        CS1033
+NULL    Fall    2013    lsimpson        CS1033
+NULL    Fall    2014    mburns  CS3319
+NULL    Fall    2014    lsimpson        CS1026
+NULL    Fall    2014    msimpso1        CS1026
+NULL    Summer  2014    wsmither        CS1026
+NULL    Summer  2014    msimpson        CS1026
+NULL    Fall    2029    hsimpson        CS1033

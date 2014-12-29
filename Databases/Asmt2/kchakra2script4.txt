@@ -1,0 +1,27 @@
+USE kchakra2tadb;
+CREATE VIEW TAs AS SELECT TeachingAssistants.FName, TeachingAssistants.LName,
+AssignedTo.CNo, AssignedTo.Year, AssignedTo.Term FROM TeachingAssistants,
+AssignedTo WHERE TeachingAssistants.WID=AssignedTo.TAWID;
+SELECT * FROM TAs;
+
+DELETE FROM InstructsProfs WHERE FName="Hanan";
+
+DELETE FROM InstructsProfs WHERE FName="Doug" AND LName="Vancise";
+
+DELIMITER $$
+CREATE TRIGGER `check` BEFORE INSERT ON `AssignedTo`
+FOR EACH ROW
+BEGIN
+IF NEW.Year<2000 THEN
+SET NEW.Year=2000;
+END IF;
+IF NEW.Year>2029 THEN
+SET NEW.Year=2029;
+END IF;
+END$$
+DELIMITER ;
+
+INSERT INTO AssignedTo VALUES (NULL, "Fall", 2030, "hsimpson", "CS1033");
+
+SELECT * FROM AssignedTo;
+

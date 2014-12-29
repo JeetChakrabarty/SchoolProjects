@@ -1,0 +1,84 @@
+--------------
+SHOW databases
+--------------
+
+Database
+information_schema
+kchakra2tadb
+mysql
+performance_schema
+vetoffice
+--------------
+DROP DATABASE IF EXISTS kchakra2tadb
+--------------
+
+--------------
+CREATE DATABASE kchakra2tadb
+--------------
+
+--------------
+SHOW TABLES
+--------------
+
+--------------
+CREATE TABLE InstructsProfs (
+FName VARCHAR(30) NOT NULL,
+LName VARCHAR(30) NOT NULL,
+WID VARCHAR(8) NOT NULL,
+CHECK (LENGTH(WID) > 1),
+PRIMARY KEY (WID))
+--------------
+
+--------------
+CREATE TABLE TeachingAssistants (
+FName VARCHAR(30) NOT NULL,
+LName VARCHAR(30) NOT NULL,
+SNo INT UNIQUE NOT NULL,
+WID VARCHAR(8) NOT NULL,
+DType VARCHAR(7) NOT NULL,
+Img VARCHAR(200),
+HSupervisor VARCHAR(8) NOT NULL,
+CHECK(SNo>99999999 AND LENGTH(WID) > 1 AND LENGTH(HSupervisor) > 1 AND DType IN ('PhD', 'Masters')),
+FOREIGN KEY (HSupervisor) REFERENCES InstructsProfs(WID),
+PRIMARY KEY (WID))
+--------------
+
+--------------
+CREATE TABLE Course (
+CNo VARCHAR(6) NOT NULL,
+CName VARCHAR(30),
+CHECK(CNo LIKE 'CS[0-9][0-9][0-9][0-9]'),
+PRIMARY KEY (CNo))
+--------------
+
+--------------
+CREATE TABLE CoSupervisor (
+TAWID VARCHAR(8) NOT NULL,
+PWID VARCHAR(8) NOT NULL,
+CHECK(LENGTH(TAWID) > 1 AND LENGTH(PWID) > 1),
+FOREIGN KEY (TAWID) REFERENCES TeachingAssistants(WID),
+FOREIGN KEY (PWID) REFERENCES InstructsProfs(WID))
+--------------
+
+--------------
+CREATE TABLE AssignedTo (
+NoStudents INT,
+Term VARCHAR(6) NOT NULL,
+Year INT NOT NULL,
+TAWID VARCHAR(8) NOT NULL,
+CNo VARCHAR(8) NOT NULL,
+CHECK(LENGTH(TAWID) > 1 AND LENGTH(PWID) > 1 AND Term IN ('Fall', 'Spring', 'Summer')),
+FOREIGN KEY (TAWID) REFERENCES TeachingAssistants(WID),
+FOREIGN KEY (CNo) REFERENCES Course(CNo))
+--------------
+
+--------------
+SHOW TABLES
+--------------
+
+Tables_in_kchakra2tadb
+AssignedTo
+CoSupervisor
+Course
+InstructsProfs
+TeachingAssistants

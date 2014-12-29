@@ -1,0 +1,23 @@
+#!/bin/sh
+if [ $# -lt 2 ]||[ $# -gt 2 ]; then
+	echo "Usage: nums option input-file"
+	exit 1
+fi
+if [ -f $2 ]; then
+	if [ $1 -ne 0 ]&&[ $1 -ne 1 ]; then
+		echo "Option must be 0 or 1"
+		exit 3
+	fi
+	if [ $1 -eq 0 ]; then
+		sort -n $2 | head -2
+		exit 0
+	fi
+	if [ $1 -eq 1 ]; then
+		sort -nr $2 | head -2
+	exit 0
+	fi
+else
+echo "$2 not found"
+exit 2
+fi
+done
